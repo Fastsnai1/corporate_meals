@@ -1,0 +1,28 @@
+{% extends 'meals/base.html' %}
+
+{% block content %}
+    {% for m in menu %}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <p class="h6">{{ m.name }}</p>
+                    </div>
+                    <div class="col-3">
+                        <p class="small">{{ m.description }}</p>
+                        <p class="small">цена: {{ m.prise }}</p>
+                    </div>
+                        <div class="col-4">
+
+                        <a href="{% url 'add_basket' m.id %}" class="btn btn-outline-success">Добавить в корзину</a>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    {% endfor %}
+
+{% endblock %}

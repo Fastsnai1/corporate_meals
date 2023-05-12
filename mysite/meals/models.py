@@ -39,8 +39,8 @@ class Order(models.Model):
 
 
 class ProductInOrder(models.Model):
-    order = models.ForeignKey('Order', on_delete=models.PROTECT, null=True, verbose_name="Сотрудник")
-    product = models.ForeignKey('Product', on_delete=models.PROTECT, null=True, verbose_name="Блюдо")
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, null=True, verbose_name="Сотрудник")
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True, verbose_name="Блюдо")
     num = models.IntegerField(default=1)
     prise_per_item = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="цена за шт.")
     total_prise = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Итоговая цена")
@@ -95,3 +95,25 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Блюдо'
         verbose_name_plural = 'блюда'
+
+
+class Basket(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, verbose_name="Сотрудник", blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, verbose_name="Блюдо")
+    quantity = models.PositiveIntegerField(default=0, verbose_name='Количество')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
+    update_at = models.DateTimeField(auto_now=True, verbose_name="Время обновления")
+
+    def __str__(self):
+        return self.product.name
+
+    def get_absolute_url(self):  # ссылка на данный класс
+        return reverse('basket', kwargs={'basket_id': self.pk})
+
+    class Meta:
+        verbose_name = 'корзина'
+        verbose_name_plural = 'корзина'
+
+    def sum(self):
+        return self.quantity * self.product.prise
+

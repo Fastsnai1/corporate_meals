@@ -1,0 +1,36 @@
+{% extends 'meals/base.html' %}
+
+{% block content %}
+    <h3 class="mb-3">История заказов</h3>
+    <h4 class="mb-3">Сотрдуник: {{ worker.name }} {{ worker.last_name }}</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Дата доставки</th>
+                <th scope="col">Блюда</th>
+                <th scope="col">Сумма</th>
+                <th scope="col">Дата создания</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ order.delivery }}</th>
+                    <td>
+                        {% for p in order.productinorder_set.all %}
+                            <p>{{ p.product.name }} кол:{{ p.num }} цена:{{ p.product.prise }}</p>
+                        {% endfor %}
+                    </td>
+                    <td>{{ order.total_prise }}</td>
+                    <td>{{ order.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    {% for m in menu %}
+    {% endfor %}
+
+{% endblock %}

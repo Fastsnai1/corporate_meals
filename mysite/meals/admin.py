@@ -17,7 +17,7 @@ class WorkerAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'worker', 'delivery', 'total_prise', 'created_at')  # то что видино на дисплее
+    list_display = ('id', 'worker', 'delivery', 'created_at')  # то что видино на дисплее
     list_display_links = ('worker', 'id')  # поля на которые можно кликнуть и перейти на соответствующию статью
     search_fields = ('created_at',)  # поля по которым можно отсортировать
     list_filter = ("worker",)  # список полей по которым можно будет фильтровать
@@ -48,7 +48,15 @@ class ProductAdmin(admin.ModelAdmin):
         model = Product
 
 
+class BasketAdmin(admin.ModelAdmin):
+    list_display = ('product', 'quantity', 'created_at')
+    list_display_links = ('product',)
+    list_editable = ('quantity',)
+    list_filter = ('created_at',)
+
+
 admin.site.register(Worker, WorkerAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(ProductInOrder, ProductInOrderAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Basket, BasketAdmin)
